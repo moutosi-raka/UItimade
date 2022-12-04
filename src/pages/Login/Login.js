@@ -1,12 +1,30 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link,  useNavigate  } from 'react-router-dom';
 import img from '../../assests/istockphoto-1321277096-612x612 1.png'
 import logo from '../../assests/ultimate hrm logo-05-02 5.png'
 
 
 const Login = () => {
+    const navigate = useNavigate();
     const handleLogin =(event)=>{
         event.preventDefault();
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        const userInfo ={
+            email,
+            password
+        }
+        fetch(' https://test.nexisltd.com/login',{
+            method: "POST",
+            body: JSON.stringify(userInfo)
+        })
+        .then(res => res.json())
+                .then(data =>{
+                    console.log("data",data);
+                    localStorage.setItem('access_token', data.access_token);
+                    navigate('/attendance')
+                })
     }
     return (
         <div>
@@ -28,7 +46,7 @@ const Login = () => {
                             className=" outline-0 border-b-2 border-black-200 border-b-black-200" />
                             </div>
                             <div className="form-control">
-                            <input type='paaswor'
+                            <input type='password'
                             placeholder='Write Password' 
                             name='password'
                             className=" outline-0 border-b-2 border-black-200 border-b-black-200 mt-12" />

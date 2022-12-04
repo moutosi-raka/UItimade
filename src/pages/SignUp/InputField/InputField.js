@@ -31,9 +31,7 @@ const InputField = ({info, handleChange, userInput, errorMessage}) => {
                         onChange={handleChange}
                        value={userInput[info.name]}/>
                       }
-                       {info?.validationMsg && <label className='lightgray-color mt-2 text-xs'>{info?.validationMsg}</label>
-                          }
-                         {errorMessage && <p className=' mt-2 text-xs text-red-700'>{errorMessage}</p>
+                         {errorMessage && info.name==='password' && <p className='lightgray-color mt-2 text-xs'>{errorMessage}</p>
                                                 }
 
                          </div>

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FaArrowRight } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import img from '../../assests/istockphoto-1321277096-612x612 1.png'
 import logo from '../../assests/ultimate hrm logo-05-02 5.png'
-import validator from 'validator'
-import { useForm } from 'react-hook-form';
 import InputField from './InputField/InputField';
 
 
@@ -12,6 +10,7 @@ const SignUp = () => {
     const [showBack, setShowBack] = useState(false);
     const [firstIndex, setFirstIndex] = useState(0);
     const [lastIndex, setLastIndex] = useState(2);
+    const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
     const [userInput, setUserInput] = useState({
         first_name: "",
@@ -26,46 +25,44 @@ const SignUp = () => {
             label: "Write First Name",
             name: "first_name",
             type: 'text',
-            validationMsg: '',
         },
         {
             id: 2,
             label: "Write Last Name",
             name: "last_name",
             type: 'text',
-            validationMsg: '',
         },
         {
             id: 3,
             label: "1xxxxxx",
             name: "phone_number",
             type: 'text',
-            validationMsg: '',
         },
         {
             id: 4,
             label: "Write Email",
             name: "email",
             type: 'email',
-            validationMsg: '',
+           
         },
         {
             id: 5,
             label: "Write Password",
             name: "password",
             type: 'password',
-            validationMsg: "Your password must be 8 character"
+          
         },
     ]
     const validate = (value) => {
- 
-        if (value.length > 8) {
-          setErrorMessage('Is Strong Password')
+       
+        if (value.length >= 8) {
+          setErrorMessage('')
         } else {
-          setErrorMessage('Is Not Strong Password')
+          setErrorMessage('Your password must be 8 character')
         }
       }
     const handleChange = (event) => {
+        
         if(event.target.name=== 'password')
         {
             validate(event.target.value)
@@ -73,8 +70,10 @@ const SignUp = () => {
 
         }
         else{
+              setErrorMessage('')
             setUserInput({ ...userInput, [event.target.name]: event.target.value });
         }
+        // setErrorMessage('')
       };
 
     const [userInfoArray, setUserInfoArray] = useState(userInfo.slice(0, 2));
@@ -93,6 +92,7 @@ const SignUp = () => {
         .then(res => res.json())
                 .then(data =>{
                     console.log("data",data);
+                    navigate('attendance')
                 })
         
     }

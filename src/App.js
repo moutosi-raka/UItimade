@@ -1,7 +1,9 @@
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
+import AttendanceInfo from './pages/AttendanceInfo/AttendanceInfo';
 import Login from './pages/Login/Login';
+import PrivateRoute from './pages/PrivateRoute/PrivateRoute';
 import SignUp from './pages/SignUp/SignUp';
 
 function App() {
@@ -14,6 +16,10 @@ function App() {
    {
           path: '/login',
           element: <Login></Login>
+   },
+   {
+    path: 'attendance',
+    element: <PrivateRoute><AttendanceInfo></AttendanceInfo></PrivateRoute>
    }
      
   ])
