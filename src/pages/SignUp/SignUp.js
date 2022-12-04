@@ -73,7 +73,6 @@ const SignUp = () => {
         setFirstIndex(0);
         setLastIndex(2);
       }
-    //   setShowBack(false);
     }
     return (
         <div>
@@ -104,6 +103,7 @@ const SignUp = () => {
                             <input type={info.type} placeholder={info.label} 
                             name={info.name}
                             className=" outline-0 border-b-2 border-black-200 border-b-black-200" />
+                               {info?.validationMsg && <label className='lightgray-color mt-2 text-xs'>{info?.validationMsg}</label>}
                             </div>
                            }
                            
@@ -114,7 +114,7 @@ const SignUp = () => {
                          {
                             userInfoArray.length === 1 ?
                             <div className='text-right' >
-                                <button className="primary-btn">Signup</button>
+                                <button className="primary-btn">Sign Up</button>
                             </div> 
                             :  <div >
                              <button onClick={handlenext} className='primary-btn '>Next step <FaArrowRight className='ml-4 inline'></FaArrowRight></button>
@@ -122,7 +122,7 @@ const SignUp = () => {
                          }
                        </div>
                    </form>
-                   <p className='text-right lightgray-color mt-12'>Already have a account? <Link className='primary-color t underline underline-offset-4'>Login</Link></p>
+                  { showBack=== false && <p className='text-right lightgray-color mt-12'>Already have a account? <Link to="/login" className='primary-color t underline underline-offset-4'>Login</Link></p>}
                    </div> 
 
                 </div>
