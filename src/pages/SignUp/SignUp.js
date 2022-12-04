@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { FaArrowRight } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 import img from '../../assests/istockphoto-1321277096-612x612 1.png'
+import logo from '../../assests/ultimate hrm logo-05-02 5.png'
 
 
 const SignUp = () => {
@@ -60,52 +63,68 @@ const SignUp = () => {
     }
 
     const handleBack = () =>{
-
+      if(firstIndex > 2)
+      {
+        setFirstIndex(firstIndex-2);
+        setLastIndex(lastIndex-2);
+      }
+      else{
+        setShowBack(false);
+        setFirstIndex(0);
+        setLastIndex(2);
+      }
+    //   setShowBack(false);
     }
     return (
         <div>
-            <div className="hero ">
-                <div className="hero-content gird grid-cols-1 lg:grid-cols-2">
-                    <div className="text-center lg:text-left ">
-                        <img src={img} alt="" />
+            <div  className="">
+                <div className="grid grid-col-1 lg:grid-cols-3">
+                    <div className='lg:col-span-2' >
+                        <img className='w-[164px] ml-8 mt-6' src={logo} alt=''/>
+                        <div className=" flex justify-center">
+                        <img className='w-[612px]' src={img} alt="" />
+                        </div>    
                     </div>
-                   <form onSubmit={handleSubmit} className="w-10/12 shadow-2xl bg-base-100 p-10">
+                    <div className="h-[560px] shadow-2xl bg-base-100 p-10" >
+                        <h2 className='text-xl text-center  my-14 font-semibold'>SignUp From</h2>
+                   <form className='h-[270px]' onSubmit={handleSubmit} >
                          
                          {
                             userInfoArray.map(info =><div  key={info.id} className="card-body"> 
                            {
                             info.name === 'phone' ?
                             <div className="form-control  flex flex-row"> 
-                                <input className='p-2 outline-0 border-b-2 border-black-200 border-b-black-200 mr-2 shrink-1 w-1/4' 
+                                <input className='outline-0 border-b-2 border-black-200 border-b-black-200 mr-2 shrink-1 w-1/4' 
                                 type="text"
                                  placeholder="+880" />
-                                <input className='p-2 outline-0 border-b-2 w-4/5 border-black-200 border-b-black-200 shrink-0 ' type={info.type} placeholder={info.label} />
+                                <input className='outline-0 border-b-2 w-4/5 border-black-200 border-b-black-200 shrink-0 ' type={info.type} placeholder={info.label} />
                             </div>
                             :
                             <div className="form-control">
                             <input type={info.type} placeholder={info.label} 
                             name={info.name}
-                            className="p-2 outline-0 border-b-2 border-black-200 border-b-black-200" />
+                            className=" outline-0 border-b-2 border-black-200 border-b-black-200" />
                             </div>
                            }
                            
                         </div>)
                          } 
+                         <div className='mt-8  mb-8 flex justify-around'>
+                         { showBack &&  <button onClick={handleBack}  className=''>Back</button>}
                          {
                             userInfoArray.length === 1 ?
-                            <div className="form-control mt-6">
-                                <button className="btn btn-primary">Login</button>
+                            <div className='text-right' >
+                                <button className="primary-btn">Signup</button>
                             </div> 
-                            :  <>
-                             { showBack &&  <button onClick={handleBack}  className='btn btn-primary'>back</button>}
-                             <button onClick={handlenext} className='btn btn-primary'>Next</button>
-                            </>
+                            :  <div >
+                             <button onClick={handlenext} className='primary-btn '>Next step <FaArrowRight className='ml-4 inline'></FaArrowRight></button>
+                            </div>
                          }
-                       
-                            {/* <div className="form-control mt-6">
-                                <button className="btn btn-primary">Login</button>
-                            </div> */}
+                       </div>
                    </form>
+                   <p className='text-right lightgray-color mt-12'>Already have a account? <Link className='primary-color t underline underline-offset-4'>Login</Link></p>
+                   </div> 
+
                 </div>
             </div>
         </div>
