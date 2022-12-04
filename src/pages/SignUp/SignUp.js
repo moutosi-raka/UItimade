@@ -5,6 +5,7 @@ import img from '../../assests/istockphoto-1321277096-612x612 1.png'
 import logo from '../../assests/ultimate hrm logo-05-02 5.png'
 import validator from 'validator'
 import { useForm } from 'react-hook-form';
+import InputField from './InputField/InputField';
 
 
 const SignUp = () => {
@@ -13,34 +14,31 @@ const SignUp = () => {
     const [lastIndex, setLastIndex] = useState(2);
     const [errorMessage, setErrorMessage] = useState('');
     const [userInput, setUserInput] = useState({
-        firstName: "",
-        lastName: "",
-        phone: "",
+        first_name: "",
+        last_name: "",
+        phone_number: "",
         email: "",
         password: ""
     });
-    const handleChange = (event) => {
-        setUserInput({ ...userInput, [event.target.name]: event.target.value });
-      };
     const userInfo = [
         {
             id: 1,
             label: "Write First Name",
-            name: "firstName",
+            name: "first_name",
             type: 'text',
             validationMsg: '',
         },
         {
             id: 2,
             label: "Write Last Name",
-            name: "lastName",
+            name: "last_name",
             type: 'text',
             validationMsg: '',
         },
         {
             id: 3,
             label: "1xxxxxx",
-            name: "phone",
+            name: "phone_number",
             type: 'text',
             validationMsg: '',
         },
@@ -59,6 +57,25 @@ const SignUp = () => {
             validationMsg: "Your password must be 8 character"
         },
     ]
+    const validate = (value) => {
+ 
+        if (value.length > 8) {
+          setErrorMessage('Is Strong Password')
+        } else {
+          setErrorMessage('Is Not Strong Password')
+        }
+      }
+    const handleChange = (event) => {
+        if(event.target.name=== 'password')
+        {
+            validate(event.target.value)
+            setUserInput({ ...userInput, [event.target.name]: event.target.value });
+
+        }
+        else{
+            setUserInput({ ...userInput, [event.target.name]: event.target.value });
+        }
+      };
 
     const [userInfoArray, setUserInfoArray] = useState(userInfo.slice(0, 2));
 
@@ -68,19 +85,18 @@ const SignUp = () => {
 
 
     const handleSignup = (event) => {
-        // event.preventDefault();
-        console.log("userINput", userInput);
-
-        // const form = event.target;
-        // const first_name = form.firstName.value;
-        // const last_Name = form.lastName.value;
-        // const phone_number = form.phone.value;
-        // const email = form.email.value;
-        // const password = form.password.value;
-        // console.log(first_name, last_Name, phone_number,email, password )
+         console.log("userINput", userInput);
+        fetch('https://test.nexisltd.com/signup',{
+            method: "POST",
+            body: JSON.stringify(userInput)
+        })
+        .then(res => res.json())
+                .then(data =>{
+                    console.log("data",data);
+                })
+        
     }
     const handlenext = (e) => {
-        // e.preventDefault();
         console.log("userINput", userInput);
         setShowBack(true);
         setFirstIndex(firstIndex + 2);
@@ -99,15 +115,7 @@ const SignUp = () => {
             setLastIndex(2);
         }
     }
-    // const validate = (value) => {
-    //     if(value.length<=8) {
-    //         setErrorMessage('provide')
-    //         console.log(value.length)
-    //     } else {
-           
-    //         setErrorMessage('Is Strong Password')
-    //     }
-    // }
+   
     return (
         <div>
             <div className="">
@@ -120,46 +128,18 @@ const SignUp = () => {
                     </div>
                     <div className="h-[560px] shadow-2xl bg-base-100 p-10" >
                         <h2 className='text-xl text-center  my-14 font-semibold'>SignUp From</h2>
-                        <form className='h-[270px]'>
+                        <form className='h-[200px]'>
 
                             {
-                                userInfoArray.map(info => <div key={info.id} className="card-body">
-                                    {
-                                        info.name === 'phone' ?
-                                            <div className="form-control  flex flex-row">
-                                                <p className='outline-0 border-b-2 border-black-200 border-b-black-200 mr-2 shrink-1 w-1/4 lightgray-color' 
-                                                >+880</p>
-
-                                                <input className='outline-0 border-b-2 w-4/5 border-black-200 border-b-black-200 shrink-0 '
-                                                name={info.name} 
-                                                type={info.type} placeholder={info.label} onChange={handleChange}
-                                                value={userInput[info.name]}/>
-                                            </div>
-                                            :
-                                            <div className="form-control">
-                                                {
-                                                    info.name === 'password' ?
-                                                        <input type={info.type} placeholder={info.label}
-                                                            name={info.name}
-                                                            className=" outline-0 border-b-2 border-black-200 border-b-black-200"
-                                                            onChange={handleChange}
-                                                            value={userInput[info.name]}/>
-                                                        : <input 
-                                                        type={info.type} placeholder={info.label}
-                                                            name={info.name}
-                                                            className=" outline-0 border-b-2 border-black-200 border-b-black-200"
-                                                            onChange={handleChange}
-                                                            value={userInput[info.name]}/>
-                                                }
-                                                {info?.validationMsg && <label className='lightgray-color mt-2 text-xs'>{info?.validationMsg}</label>
-                                                }
-                                                {errorMessage && <p className='lightgray-color mt-2 text-xs text-red-700'>{errorMessage}</p>
-                                                }
-
-                                            </div>
-                                    }
-
-                                </div>)
+                                userInfoArray.map(info =>
+                                <InputField
+                                handleChange={handleChange}
+                                userInput={userInput}
+                                key={info.id} 
+                                errorMessage={errorMessage}
+                                info={info}>
+                                </InputField>
+                                )
                             }
 
                         </form>
