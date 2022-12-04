@@ -73,7 +73,6 @@ const SignUp = () => {
               setErrorMessage('')
             setUserInput({ ...userInput, [event.target.name]: event.target.value });
         }
-        // setErrorMessage('')
       };
 
     const [userInfoArray, setUserInfoArray] = useState(userInfo.slice(0, 2));
